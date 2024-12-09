@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>EcoEats - Food Listings</title>
+    <link rel="stylesheet" href="food-listing.css">
+</head>
+<body>
+    <header>
+        <h1>EcoEats - Food Listings</h1>
+    </header>
+
+    <!-- Filters Section -->
+    <section id="filters">
+        <h2>Filter Listings</h2>
+        <label for="freshness-filter">Freshness (time in hours):</label>
+        <select id="freshness-filter">
+            <option value="all">All</option>
+            <option value="1">1 Hour</option>
+            <option value="3">3 Hours</option>
+            <option value="6">6 Hours</option>
+            <option value="12">12 Hours</option>
+        </select>
+
+        <label for="distance-filter">Max Distance (km):</label>
+        <input type="number" id="distance-filter" placeholder="e.g. 10">
+
+        <button onclick="filterFood()">Apply Filters</button>
+    </section>
+
+    <!-- Food Listings -->
+    <section id="food-list">
+        <h2>Available Food</h2>
+        <ul id="food-items">
+            <!-- Sample Food Items will be listed here -->
+        </ul>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 EcoEats. All rights reserved.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

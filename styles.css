@@ -1,0 +1,92 @@
+/* General Styling */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+/* Seller Dashboard Link */
+.dashboard-link {
+  position: absolute; /* Positions the element absolutely relative to the viewport */
+  top: 20px;         /* Distance from the top */
+  left: 20px;        /* Distance from the left */
+  text-decoration: none;
+}
+
+.profile-pic {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #48c9b0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-pic:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Banner Styling */
+.banner {
+  background: #48c9b0;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.banner h1 {
+  font-size: 2.5em;
+  margin: 0;
+}
+
+.banner p {
+  font-size: 1.2em;
+  margin-top: 10px;
+}
+
+/* Content Container */
+.container {
+  padding: 20px;
+}
+
+.register {
+  margin: 20px auto;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.register h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.cta-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-top: 10px;
+  font-size: 1em;
+  color: #fff;
+  background: #48c9b0;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.cta-btn:hover {
+  background: #1abc9c;
+}
+
+footer {
+  background: #333;
+  color: #fff;
+  padding: 10px 0;
+  margin-top: 20px;
+  font-size: 0.9em;
+}

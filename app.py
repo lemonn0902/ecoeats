@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_mysqldb import MySQL
 
@@ -107,6 +108,9 @@ def reg_seller():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
+    user_id = request.args.get('user_id')
+
     if request.method == 'POST':
         # Get form data
         role = request.form.get('role')
@@ -127,7 +131,7 @@ def login():
 
             # Redirect to the appropriate page based on user role
             if role == 'seller':
-                return redirect(url_for('seller_profile'))  # Redirect to seller profile
+                 return redirect(url_for('add_food_listing', user_id=user_id))  # Redirect to seller profile
             elif role == 'consumer':
                 return redirect(url_for('food_list'))  # Redirect to customer food list
 
@@ -138,13 +142,58 @@ def login():
     return render_template('login.html')  # Render login page for GET requests
 
 
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
+app.config['ALLOWED_EXTENSIONS'] = {'jpg', 'jpeg', 'png', 'gif'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+
+@app.route('/add-food-listing', methods=['GET', 'POST'])
+def add_food_listing():
+    # Retrieve the user_id from the URL or session
+    user_id = request.args.get('user_id')  # Assuming you pass it through the URL
+
+    if request.method == 'POST':
+        food_name = request.form['food-name']
+        food_description = request.form['description']
+        food_price = request.form['price']
+        freshness = request.form['freshness']
+
+        # Handle image upload
+        if 'food_image' in request.files:
+            file = request.files['food-image']
+            if file and allowed_file(file.filename):
+                filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+                file.save(filename)
+            else:
+                filename = None
+        else:
+            filename = None
+
+        # Insert food data into the Listings table
+        cur = mysql.connection.cursor()
+        cur.execute("""
+            INSERT INTO Listings (food_name, description, freshness_duration, picture_url, price, seller_id)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """, (food_name, food_description, freshness, filename, food_price, user_id))  # Use the user_id from registration
+        mysql.connection.commit()
+        cur.close()
+
+        return redirect(url_for('food_list'))  # Redirect to the list of food items
+
+    return render_template('seller-profile.html')
+
+
 @app.route('/food-list')
 def food_list():
-    return render_template('food-list.html')
+    # Fetch all food listings from the database
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM listings")
+    food_items = cur.fetchall()
+    cur.close()
 
-@app.route('/seller-profile')
-def seller_profile():
-    return render_template('seller-profile.html')
+    return render_template('food-list.html', food_items=food_items)
+
 
 # Run the app
 if __name__ == '__main__':

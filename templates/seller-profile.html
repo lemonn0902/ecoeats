@@ -16,7 +16,7 @@
 
     <div class="form-container">
         <h2>Add Food Item</h2>
-        <form action="submit_food.php" method="POST" enctype="multipart/form-data">
+        <form action="{{ url_for('add_food_listing') }}" method="POST" enctype="multipart/form-data">
             <label for="food-name">Food Name</label>
             <input type="text" id="food-name" name="food-name" required>
 
@@ -29,7 +29,7 @@
             <label for="food-image">Upload Picture</label>
             <input type="file" id="food-image" name="food-image" accept="image/*" required>
 
-            <label for="price">Price (in $)</label>
+            <label for="price">Price (in ₹)</label>
             <input type="number" id="price" name="price" step="0.01" required>
 
             <button type="submit" class="submit-btn">Add Food Item</button>

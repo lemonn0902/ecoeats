@@ -145,6 +145,8 @@ def login():
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'jpg', 'jpeg', 'png', 'gif'}
 
+import os
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
@@ -160,22 +162,27 @@ def add_food_listing():
         freshness = request.form['freshness']
 
         # Handle image upload
-        if 'food_image' in request.files:
+        if 'food-image' in request.files:  # Use the correct field name
             file = request.files['food-image']
             if file and allowed_file(file.filename):
-                filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-                file.save(filename)
+                # Save file to the uploads folder
+                filename = file.filename
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                file.save(file_path)
+
+                # Store the relative path (e.g., 'uploads/filename.jpg') in the database
+                picture_url = os.path.join('uploads', filename).replace("\\", "/")  # Ensure compatibility across OS
             else:
-                filename = None
+                picture_url = None
         else:
-            filename = None
+            picture_url = None
 
         # Insert food data into the Listings table
         cur = mysql.connection.cursor()
         cur.execute("""
             INSERT INTO Listings (food_name, description, freshness_duration, picture_url, price, seller_id)
             VALUES (%s, %s, %s, %s, %s, %s)
-        """, (food_name, food_description, freshness, filename, food_price, user_id))  # Use the user_id from registration
+        """, (food_name, food_description, freshness, picture_url, food_price, user_id))  # Save the relative file path
         mysql.connection.commit()
         cur.close()
 

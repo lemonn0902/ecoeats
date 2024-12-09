@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoEats - Login</title>
+    <link rel="stylesheet" href="static/stylesheets/login.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="banner">
+            <h1>EcoEats Login</h1>
+            <p>Select your role to access your personalized dashboard!</p>
+        </div>
+    </header>
+
+
+    <!-- Login Form Section -->
+    <div class="form-container">
+        <form action="/login" method="POST">
+            <!-- Role Selection -->
+            <div class="role-selection">
+                <h2>Choose Your Role</h2>
+                <label>
+                    <input type="radio" name="role" value="seller" required>
+                    <span>As Seller</span>
+                </label>
+                <label>
+                    <input type="radio" name="role" value="customer" required>
+                    <span>As Customer</span>
+                </label>
+            </div>
+
+            <!-- Email Input -->
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+            <!-- Password Input -->
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+    <!-- Flash Message Section -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-message">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn">Login</button>
+        </form>
+
+        <!-- Registration Link -->
+        <p>Don't have an account? 
+            <a href="/register-customer">Register as Customer</a> or 
+            <a href="/register-seller">Register as Seller</a>
+        </p>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 EcoEats. All rights reserved.</p>
+    </footer>
+</body>
+</html>

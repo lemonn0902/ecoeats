@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>EcoEats - Sustainable Food Marketplace</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="static\stylesheets\styles.css">
 </head>
 <body>
     <!-- Seller Dashboard Link in Top-Left -->
-    <a href="seller-profile.html" class="dashboard-link">
+    <a href="{{ url_for('seller_profile') }}" class="dashboard-link">
         <img src="Default_pfp.jpg" alt="Seller Profile" class="profile-pic">
     </a>
 
@@ -27,28 +27,28 @@
         <section id="register-customer" class="register">
             <h2>Register as Customer</h2>
             <p>Start buying eco-friendly products from local sellers!</p>
-            <a href="register-customer.html" class="cta-btn">Register as Customer</a>
+            <a href="{{ url_for('reg_customer') }}" class="cta-btn">Register as Customer</a>
         </section>
 
         <!-- Register as Seller -->
         <section id="register-seller" class="register">
             <h2>Register as Seller</h2>
             <p>Sell your fresh and sustainable products to buyers!</p>
-            <a href="seller-register.html" class="cta-btn">Register as Seller</a>
+            <a href="{{ url_for('reg_seller') }}" class="cta-btn">Register as Seller</a>
         </section>
 
         <!-- Login Section -->
         <section id="login" class="register">
             <h2>Login</h2>
             <p>Already a member? Log into access your account!</p>
-            <a href="seller-profile.html" class="cta-btn">Login</a>
+            <a href="{{ url_for('reg_seller') }}" class="cta-btn">Login</a>
         </section>
 
         <!-- View Food Items Section -->
         <section id="view-food" class="register">
             <h2>View All Food Listings</h2>
             <p>Explore a variety of eco-friendly food options from local sellers!</p>
-            <a href="food-list.html" class="cta-btn">View Food Listings</a>
+            <a href="{{ url_for('food_list') }}" class="cta-btn">View Food Listings</a>
         </section>
     </div>
 

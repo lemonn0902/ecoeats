@@ -72,7 +72,7 @@ def reg_seller():
         password = request.form['password']
         confirm_password = request.form['confirm-password']
         phone = request.form['phone']
-        shipping_address = request.form['address']
+        shipping_address = request.form['address'] if request.form['address'] else 'Default Shipping Address'
         selling_address = request.form['business-address']
         
         # Check if passwords match

@@ -1,35 +1,24 @@
 function filterFood() {
-  // Get the freshness and distance filter values
-  const freshnessFilter = document.getElementById('freshness-filter').value;
-  const distanceFilter = document.getElementById('distance-filter').value;
+  // Get the freshness filter value
+  const freshness = document.getElementById('freshness-filter').value;
+  const maxDistance = document.getElementById('distance-filter').value;
 
-  // Get all the food items in the list
-  const foodItems = document.querySelectorAll('#food-items .food-item');
-
-  // Loop through each food item
+  // Apply the filter logic here based on the freshness and max distance
+  // Example: Loop through the food items and show/hide based on the freshness
+  const foodItems = document.querySelectorAll('.food-item');
+  
   foodItems.forEach(item => {
-      // Get the freshness and distance of the current food item
-      const freshness = item.querySelector('.food-freshness').textContent.split(":")[1].trim(); // Extract the number
-      const distance = item.querySelector('.food-distance').textContent.split(" ")[0]; // Extract the number
+      const freshnessText = item.querySelector('.food-freshness').textContent;
+      const freshnessValue = parseInt(freshnessText.replace('Freshness: ', '').replace(' hours', ''));
 
-      // Convert freshness and distance to integers for comparison
-      const freshnessNumber = parseInt(freshness);
-      const distanceNumber = parseInt(distance);
+      const distanceText = item.querySelector('.food-distance').textContent;
+      const distanceValue = parseInt(distanceText.replace(' km', ''));
 
-      // Determine whether the item should be displayed
-      let displayItem = true;
-
-      // Check the freshness filter
-      if (freshnessFilter !== "all" && freshnessNumber > parseInt(freshnessFilter)) {
-          displayItem = false;
+      // Apply filtering based on freshness and distance
+      if ((freshness === 'all' || freshnessValue <= freshness) && (maxDistance === '' || distanceValue <= maxDistance)) {
+          item.style.display = '';
+      } else {
+          item.style.display = 'none';
       }
-
-      // Check the distance filter
-      if (distanceFilter && distanceNumber > parseInt(distanceFilter)) {
-          displayItem = false;
-      }
-
-      // Show or hide the item based on the filter conditions
-      item.style.display = displayItem ? 'block' : 'none';
   });
 }

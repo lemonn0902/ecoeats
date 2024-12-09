@@ -27,7 +27,7 @@
         <label for="distance-filter">Max Distance (km):</label>
         <input type="number" id="distance-filter" placeholder="e.g. 10">
 
-        <button onclick="filterFood()">Apply Filters</button>
+        <button type="button" onclick="filterFood()">Apply Filters</button>
     </section>
 
     <!-- Food Listings -->
@@ -39,19 +39,22 @@
                     <h3>{{ food[1] }}</h3> <!-- Food name -->
                     <p>{{ food[2] }}</p>    <!-- Food description -->
                     <p>Price: ${{ food[5] }}</p> <!-- Food price -->
-                    <p>Freshness: {{ food[3] }}</p> <!-- Freshness duration -->
+                    <p class="food-freshness">Freshness: {{ food[3] }}</p> <!-- Freshness duration -->
                     {% if food[4] %}
                         <img src="{{ url_for('static', filename='uploads/' + food[4].split('/')[-1]) }}" alt="Food Image" width="200">
                     {% endif %}
+                    <!-- Optionally, you could add a data attribute for the distance -->
+                    <p class="food-distance" style="display:none;">{{ food[6] }} km</p> <!-- Max Distance -->
                 </li>
             {% endfor %}
         </ul>
+        
     </section>
 
     <footer>
         <p>&copy; 2024 EcoEats. All rights reserved.</p>
     </footer>
 
-    <script src="app.js"></script>
+    <script src="static/javascript/filter.js"></script>
 </body>
 </html>

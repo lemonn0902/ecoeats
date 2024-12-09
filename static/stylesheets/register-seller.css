@@ -1,13 +1,15 @@
+/* Body Styling */
 body {
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  background-image: url('/static/images/walking.gif'); /* Use forward slashes here */
+  background-image: url('/static/images/walking.gif'); /* Ensure correct path */
   background-size: cover;
   background-position: center;
   color: #333;
 }
 
+/* Header Styling */
 header {
   background-color: rgba(42, 157, 143, 0.7); /* Semi-transparent overlay */
   color: white;
@@ -21,10 +23,11 @@ header {
 }
 
 .banner p {
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin-top: 10px;
 }
 
+/* Form Container Styling */
 .form-container {
   display: flex;
   justify-content: center;
@@ -33,22 +36,25 @@ header {
   padding: 20px;
 }
 
+/* Form Card Styling */
 .form-card {
   background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
-  padding: 20px;
+  padding: 30px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 350px; /* Reduced size for the form */
+  max-width: 400px;
   text-align: center;
 }
 
+/* Heading for Form */
 .form-card h2 {
   color: #2a9d8f;
   font-size: 2rem;
   margin-bottom: 20px;
 }
 
+/* Label Styling */
 label {
   display: block;
   text-align: left;
@@ -56,41 +62,26 @@ label {
   font-weight: bold;
 }
 
-.form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-}
-
-.form-card {
-  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px; /* Reduced size for the form */
-  text-align: center;
-}
-
+/* Input and Textarea Styling */
 input, textarea {
   width: 100%;
-  padding: 12px; /* Increased padding for a better look */
+  padding: 12px;
   margin-bottom: 15px;
   border-radius: 5px;
   border: 1px solid #ccc;
   font-size: 1rem;
 }
 
+/* Specific Input Types Styling */
 input[type="password"], input[type="tel"], input[type="text"], input[type="email"], textarea {
   font-size: 1rem;
 }
 
+/* Submit Button Styling */
 .submit-btn {
   background-color: #2a9d8f;
   color: white;
-  padding: 12px 20px; /* Adjusted padding for button */
+  padding: 12px 20px;
   border: none;
   border-radius: 5px;
   font-size: 1.2rem;
@@ -102,7 +93,7 @@ input[type="password"], input[type="tel"], input[type="text"], input[type="email
   background-color: #21867a;
 }
 
-
+/* Links Styling */
 form a {
   color: #2a9d8f;
   text-decoration: none;
@@ -113,7 +104,20 @@ form a:hover {
   text-decoration: underline;
 }
 
+/* Paragraph Styling */
 p {
   margin-top: 20px;
   font-size: 1rem;
+  text-align: center;
+}
+
+/* Align "Already have an account?" and "Login here" in one line */
+p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+p a {
+  margin-left: 5px; /* Small gap between text and link */
 }

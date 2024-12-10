@@ -22,35 +22,44 @@
     <label for="distance-filter">Max Distance (km):</label>
     <input type="number" id="distance-filter" placeholder="e.g. 10">
 
+    <!-- City filter dropdown -->
+    <label for="city-filter">Select City:</label>
+    <select id="city-filter">
+        <option value="">--Select a City--</option>
+        <!-- City options with actual city names -->
+        <option value="bengaluru">Bengaluru</option>
+        <option value="delhi">Delhi</option>
+        <option value="mumbai">Mumbai</option>
+        <option value="kolkata">Kolkata</option>
+    </select>
+
     <button type="button" onclick="filterFood()">Apply Filters</button>
 </section>
 
+<!-- Food Listings -->
+<section id="food-list">
+    <h2>Available Food</h2>
+    <ul id="food-items">
+        {% for food in food_items %}
+            <li class="food-item" data-city="{{ food[7] }}"> <!-- Assuming the city is stored in food[7] -->
+                <h3>{{ food[1] }}</h3> <!-- Food name -->
+                <p>{{ food[2] }}</p>    <!-- Food description -->
+                <p>Price: ₹{{ food[5] }}</p> <!-- Food price -->
+                <p class="food-freshness">Freshness: {{ food[3] }}</p> <!-- Freshness duration -->
+                {% if food[4] %}
+                    <img src="{{ url_for('static', filename='uploads/' + food[4].split('/')[-1]) }}" alt="Food Image" width="200">
+                {% endif %}
+                <!-- Optionally, you could add a data attribute for the distance -->
+                <p class="food-distance" style="display:none;">{{ food[6] }} km</p> <!-- Max Distance -->
+            </li>
+        {% endfor %}
+    </ul>
+</section>
 
-    <!-- Food Listings -->
-    <section id="food-list">
-        <h2>Available Food</h2>
-        <ul id="food-items">
-            {% for food in food_items %}
-                <li class="food-item">
-                    <h3>{{ food[1] }}</h3> <!-- Food name -->
-                    <p>{{ food[2] }}</p>    <!-- Food description -->
-                    <p>Price: ₹{{ food[5] }}</p> <!-- Food price -->
-                    <p class="food-freshness">Freshness: {{ food[3] }}</p> <!-- Freshness duration -->
-                    {% if food[4] %}
-                        <img src="{{ url_for('static', filename='uploads/' + food[4].split('/')[-1]) }}" alt="Food Image" width="200">
-                    {% endif %}
-                    <!-- Optionally, you could add a data attribute for the distance -->
-                    <p class="food-distance" style="display:none;">{{ food[6] }} km</p> <!-- Max Distance -->
-                </li>
-            {% endfor %}
-        </ul>
-        
-    </section>
+<footer>
+    <p>&copy; 2024 EcoEats. All rights reserved.</p>
+</footer>
 
-    <footer>
-        <p>&copy; 2024 EcoEats. All rights reserved.</p>
-    </footer>
-
-    <script src="static/javascript/filter.js"></script>
+<script src="static/javascript/filter.js"></script>
 </body>
 </html>

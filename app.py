@@ -160,6 +160,7 @@ def add_food_listing():
         food_description = request.form['description']
         food_price = request.form['price']
         freshness = request.form['freshness']
+        city = request.form['city']
 
         # Handle image upload
         if 'food-image' in request.files:  # Use the correct field name
@@ -180,9 +181,9 @@ def add_food_listing():
         # Insert food data into the Listings table
         cur = mysql.connection.cursor()
         cur.execute("""
-            INSERT INTO Listings (food_name, description, freshness_duration, picture_url, price, seller_id)
-            VALUES (%s, %s, %s, %s, %s, %s)
-        """, (food_name, food_description, freshness, picture_url, food_price, user_id))  # Save the relative file path
+            INSERT INTO Listings (food_name, description, freshness_duration, picture_url, price, seller_id, city)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        """, (food_name, food_description, freshness, picture_url, food_price, user_id, city))  # Save the relative file path
         mysql.connection.commit()
         cur.close()
 

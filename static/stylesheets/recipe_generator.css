@@ -1,0 +1,106 @@
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body and Page Layout */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f1fdf3;  /* Light pastel green background */
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header Styles */
+header {
+  background-color: #a8d5ba;  /* Pastel green background */
+  color: #2d6a4f;  /* Darker green for text */
+  padding: 20px;
+  text-align: center;
+  border-bottom: 2px solid #2d6a4f;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+header p {
+  font-size: 1.2rem;
+}
+
+/* Main Content Styling */
+main {
+  flex: 1;
+  padding: 20px;
+  text-align: center;
+}
+
+form {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+form label {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+form select {
+  font-size: 1.1rem;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cta-btn {
+  background-color: #6ecf8b;  /* Pastel green button */
+  color: white;
+  font-size: 1.2rem;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cta-btn:hover {
+  background-color: #5bb576;  /* Darker green on hover */
+}
+
+/* Recipe Result Styling */
+#recipe-result {
+  margin-top: 30px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #2d6a4f;
+}
+
+/* Footer Styling */
+footer {
+  background-color: #a8d5ba;  /* Same pastel green as header */
+  color: #2d6a4f;  /* Darker green for footer text */
+  text-align: center;
+  padding: 15px;
+  margin-top: 30px;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+/* Footer Positioning */
+footer p {
+  font-size: 1rem;
+}

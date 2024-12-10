@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leftover Recipe Generator</title>
+    <link rel="stylesheet" href="static/stylesheets/recipe_generator.css">
+</head>
+<body>
+    <header>
+        <h1>Leftover Recipe Generator</h1>
+        <p>Select a leftover ingredient to find a recipe!</p>
+    </header>
+    <main>
+        <form id="recipe-form">
+            <label for="leftover">Choose a leftover:</label>
+            <select id="leftover" name="leftover"></select>
+            <button type="submit" class="cta-btn">Get Recipe</button>
+        </form>
+        <div id="recipe-result"></div>
+    </main>
+    <footer>
+        <p>&copy; 2024 EcoEats. All rights reserved.</p>
+    </footer>
+    <script src="static/javascript/recipe_generator.js"></script>
+</body>
+</html>

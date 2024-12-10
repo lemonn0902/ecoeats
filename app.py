@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, jsonify, render_template, request, redirect, url_for, flash, session
 from flask_mysqldb import MySQL
 
 # Initialize Flask application
@@ -201,6 +201,49 @@ def food_list():
     cur.close()
 
     return render_template('food-list.html', food_items=food_items)
+
+@app.route('/recipe-generator')
+def recipe_generator():
+    return render_template('recipe_generator.html')
+
+@app.route('/get-recipes', methods=['GET'])
+def get_recipes():
+    try:
+        file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'food.csv')
+        recipes = []
+        with open(file_path, 'r') as f:
+            lines = f.readlines()
+            for line in lines[1:]:  # Skip header
+                parts = line.strip().split(',')
+                if len(parts) == 2:  # Make sure there are exactly two values
+                    leftover, recipe = [x.strip() for x in parts]  # Strip spaces from both values
+                    recipes.append({'leftover': leftover, 'recipe': recipe})
+                else:
+                    # Handle lines that don't match the expected format
+                    print(f"Skipping invalid line: {line.strip()}")
+        return jsonify(recipes)
+    except Exception as e:
+        return jsonify({'error': f'Error reading file: {e}'}), 500
+
+
+@app.route('/find-recipe', methods=['POST'])
+def find_recipe():
+    leftover = request.json.get('leftover')
+    try:
+        file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'food.csv')
+        with open(file_path, 'r') as f:
+            for line in f.readlines()[1:]:
+                parts = line.strip().split(',')
+                if len(parts) == 2:  # Ensure we have exactly two values
+                    csv_leftover, recipe = [x.strip() for x in parts]  # Strip spaces from both values
+                    if csv_leftover.lower() == leftover.lower():  # Case-insensitive comparison
+                        return jsonify({'recipe': recipe})
+                else:
+                    print(f"Skipping invalid line: {line.strip()}")
+        return jsonify({'error': 'Recipe not found'}), 404
+    except Exception as e:
+        return jsonify({'error': f'Error finding recipe: {e}'}), 500
+
 
 
 # Run the app

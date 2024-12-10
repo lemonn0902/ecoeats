@@ -242,20 +242,38 @@ def get_recipes():
 
 @app.route('/find-recipe', methods=['POST'])
 def find_recipe():
-    leftover = request.json.get('leftover')
+    # Get the leftover ingredient from the request
+    leftover = request.json.get('leftover', '').strip()
+    
+    if not leftover:
+        return jsonify({'error': 'Leftover ingredient cannot be empty'}), 400  # Handle empty input
+
     try:
+        # Construct the file path for the CSV file
         file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'food.csv')
+
+        # Open and read the CSV file
         with open(file_path, 'r') as f:
-            for line in f.readlines()[1:]:
+            for line_num, line in enumerate(f.readlines()[1:], start=2):  # Skip the header, start line numbering at 2
                 parts = line.strip().split(',')
-                if len(parts) == 2:  # Ensure we have exactly two values
-                    csv_leftover, recipe = [x.strip() for x in parts]  # Strip spaces from both values
-                    if csv_leftover.lower() == leftover.lower():  # Case-insensitive comparison
-                        return jsonify({'recipe': recipe})
+                
+                if len(parts) == 2:  # Ensure the line has exactly two values
+                    # Strip spaces and make case-insensitive comparison
+                    csv_leftover, recipe = [x.strip() for x in parts]
+                    if csv_leftover.lower() == leftover.lower():
+                        return jsonify({'recipe': recipe})  # Return the matching recipe
                 else:
-                    print(f"Skipping invalid line: {line.strip()}")
+                    # Log invalid lines for debugging purposes
+                    print(f"Skipping invalid line {line_num}: {line.strip()}")
+
+        # If no matching recipe is found, return an error message
         return jsonify({'error': 'Recipe not found'}), 404
+
+    except FileNotFoundError:
+        # Handle the case where the CSV file doesn't exist
+        return jsonify({'error': 'The recipe database file was not found'}), 500
     except Exception as e:
+        # Handle any other exceptions and return a generic error message
         return jsonify({'error': f'Error finding recipe: {e}'}), 500
 
 

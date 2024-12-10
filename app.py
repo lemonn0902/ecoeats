@@ -1,5 +1,6 @@
 import os
-from flask import Flask, jsonify, render_template, request, redirect, url_for, flash, session
+from flask import jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_mysqldb import MySQL
 
 # Initialize Flask application
@@ -67,44 +68,54 @@ def reg_customer():
 @app.route('/register_seller', methods=['GET', 'POST'])
 def reg_seller():
     if request.method == 'POST':
-        name = request.form['business-name']
-        email = request.form['email']
-        password = request.form['password']
-        confirm_password = request.form['confirm-password']
-        phone = request.form['phone']
-        shipping_address = request.form['address'] if request.form['address'] else 'Default Shipping Address'
-        selling_address = request.form['business-address']
-        
-        # Check if passwords match
-        if password != confirm_password:
-            flash("Passwords do not match! Please try again.")
-            return redirect(url_for('register_seller'))
+        try:
+            # Capture form data
+            name = request.form['business-name']
+            email = request.form['email']
+            password = request.form['password']
+            confirm_password = request.form['confirm-password']
+            phone = request.form['phone']
+            shipping_address = request.form['address']
+            selling_address = request.form['business-address']
+            
+            print(f"Received form data: {name}, {email}, {phone}, {shipping_address}, {selling_address}")
 
-        # Check if user already exists in the database
-        cur = mysql.connection.cursor()
-        cur.execute("SELECT * FROM Users WHERE email_address = %s", (email,))
-        existing_user = cur.fetchone()
-        
-        if existing_user:
-            flash("User with this email already exists. Please log in or use a different email.")
-            return redirect(url_for('login'))
-        
-        # Insert new seller into the database
-        cur.execute("INSERT INTO Users (name, email_address, password, phone, shipping_address, selling_address, user_type) VALUES (%s, %s, %s, %s, %s, %s, %s)", 
-            (name, email, password, phone, shipping_address, selling_address, 'seller'))
+            # Check if passwords match
+            if password != confirm_password:
+                flash("Passwords do not match! Please try again.")
+                return redirect(url_for('register_seller'))
 
-        mysql.connection.commit()
-        user_id = cur.lastrowid  # Get the last inserted user_id
-        cur.close()
+            # Check if user already exists
+            cur = mysql.connection.cursor()
+            cur.execute("SELECT * FROM Users WHERE email_address = %s", (email,))
+            existing_user = cur.fetchone()
+            
+            if existing_user:
+                flash("User with this email already exists. Please log in or use a different email.")
+                return redirect(url_for('login'))
 
-        # Store user data in session to indicate logged-in state
-        session['user_id'] = user_id
-        session['user_name'] = name  # Store name if needed for display
+            # Insert new seller into database
+            cur.execute("INSERT INTO Users (name, email_address, password, phone, shipping_address, selling_address, user_type) VALUES (%s, %s, %s, %s, %s, %s, %s)", 
+                        (name, email, password, phone, shipping_address, selling_address, 'seller'))
+            mysql.connection.commit()
+            user_id = cur.lastrowid
+            cur.close()
 
-        flash("Registration successful! Welcome to EcoEats.")
-        return redirect(url_for('home'))  # Redirect to home after successful registration
+            # Store session data
+            session['user_id'] = user_id
+            session['user_name'] = name
+            print(f"Session set: {session}")
+
+            flash("Registration successful! Welcome to EcoEats.")
+            return redirect(url_for('home'))  # Redirect to home page
+
+        except Exception as e:
+            print(f"Error occurred: {e}")
+            flash("An error occurred during registration. Please try again.")
+            return redirect(url_for('reg_seller'))
 
     return render_template('seller-register.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -213,9 +224,11 @@ def get_recipes():
         recipes = []
         with open(file_path, 'r') as f:
             lines = f.readlines()
+            print(f"Total lines in CSV: {len(lines)}")  # Check how many lines are being read
             for line in lines[1:]:  # Skip header
                 parts = line.strip().split(',')
-                if len(parts) == 2:  # Make sure there are exactly two values
+                print(f"Parts: {parts}")  # Debug by printing the parts of each line
+                if len(parts) == 2:  # Ensure there are exactly two values
                     leftover, recipe = [x.strip() for x in parts]  # Strip spaces from both values
                     recipes.append({'leftover': leftover, 'recipe': recipe})
                 else:
@@ -224,6 +237,7 @@ def get_recipes():
         return jsonify(recipes)
     except Exception as e:
         return jsonify({'error': f'Error reading file: {e}'}), 500
+
 
 
 @app.route('/find-recipe', methods=['POST'])
@@ -243,7 +257,6 @@ def find_recipe():
         return jsonify({'error': 'Recipe not found'}), 404
     except Exception as e:
         return jsonify({'error': f'Error finding recipe: {e}'}), 500
-
 
 
 # Run the app
